@@ -2,6 +2,22 @@ let code = generateCode();
 let attempts = [];
 // document.getElementById('secret-code').innerHTML = `Secret code: ${code}`;
 
+document.getElementById('submit-btn').addEventListener('click', function() {
+  const guess = document.getElementById('guess').value;
+  
+    if (guess.match(/^\d{4}$/) && !hasDuplicates(guess)) {
+      const result = compareCodes(guess, code);
+      attempts.push(`${guess} - ${result}`);
+      document.getElementById('result').innerHTML = attempts.map(a => `<p>${a}</p>`).join('');
+      if (result === '4 digits correct, 4 in place') {
+        document.getElementById('instructions').innerHTML = 'Congratulations! You guessed the code.';
+        document.getElementById('guess').disabled = true;
+        document.getElementById('submit-btn').disabled = true;
+      }
+      document.getElementById('guess').value = '';
+    }
+  }
+);
 document.getElementById('guess').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') {
     const guess = document.getElementById('guess').value;
